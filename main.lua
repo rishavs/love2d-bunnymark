@@ -29,7 +29,7 @@ function love.draw()
 
     love.graphics.print(bunnyCount .. " Total Bunnies", 20, 10)
     
-    love.graphics.print(litterSize .. " bunnies each Litter", 20, 20)
+    love.graphics.print(litterSize .. " bunnies in each Litter", 20, 20)
     
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 20, 30)    
     
