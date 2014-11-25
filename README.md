@@ -14,5 +14,7 @@ Left Clicking the mouse anywhere on the screen spawns a litter of bunnies (minim
 Credits
 ================
 orginal BunnyMark by to Iain Lobb @ http://blog.iainlobb.com/2010/11/display-list-vs-blitting-results.html
+
 PixiJS Bunnymark by pixiJS @ http://www.goodboydigital.com/pixi-js-bunnymark/
+
 Bunny Image by Amanda Lobb @ http://amandalobb.com/
