@@ -44,7 +44,7 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button)
-    if button == 'l' then
+    if button == 1 then
         for variable = 1, litterSize, 1 do
             procreate(x, y)
         end
