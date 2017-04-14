@@ -5,48 +5,30 @@
 ------------------------------------------------
 -- Base functions
 ------------------------------------------------
-function love.load()
-    bunnies = {}
-    gravity = 0.98
-    
-    maxX = love.graphics.getWidth( )
-    minX = 0
-    maxY = love.graphics.getHeight( )
-    minY = 0
 
-    baseLitterSize = 1000
-    litterSizeIncrement = 1000
-    litterSize = baseLitterSize
-    
-    stdOutText = ""
-
-    bunnyCount = 0
-
-    bunnyImg = love.graphics.newImage("bunny.png")
-end
+local bunnies = {}
+local maxX,maxY = love.graphics.getDimensions()
+local gravity = 0.98
+local baseLitterSize, litterSizeIncrement = 1000, 1000
+local litterSize = baseLitterSize
+local bunnyImg = love.graphics.newImage("bunny.png")
 
 function love.draw()
 
-    love.graphics.print(bunnyCount .. " Total Bunnies", 20, 10)
-    
+    love.graphics.print(#bunnies .. " Total Bunnies", 20, 10)
     love.graphics.print(litterSize .. " bunnies in each Litter", 20, 20)
     
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 20, 30)    
     
-    for index,value in ipairs(bunnies) do
-        local tempBunnyId = value[1]
-        local tempBunnyPosX = value[2]
-        local tempBunnyPosY = value[3]
-
-        love.graphics.draw(bunnyImg, tempBunnyPosX, tempBunnyPosY)
+    for _,v in ipairs(bunnies) do
+        love.graphics.draw(bunnyImg, v[1], v[2])
     end
-
 end
 
 function love.mousepressed(x, y, button)
     if button == 1 then
         for variable = 1, litterSize, 1 do
-            procreate(x, y)
+			bunnies[#bunnies+1] = { x, y, math.random(-5, 5), math.random(-5, 5) }
         end
     elseif button == 'wu' then
         litterSize = litterSize + litterSizeIncrement
@@ -59,59 +41,31 @@ end
 
 function love.update(dt)
     
-    for index,value in ipairs(bunnies) do
-        local tempBunnyId = value[1]
-        local tempBunnyPosX = value[2]
-        local tempBunnyPosY = value[3]
-        local tempBunnySpeedX = value[4]
-        local tempBunnySpeedY = value[5]
-        tempBunnyPosX = tempBunnyPosX + tempBunnySpeedX;    
-        tempBunnyPosY = tempBunnyPosY + tempBunnySpeedY;
+    for i,v in ipairs(bunnies) do
+        local x = v[1] + v[3];    
+        local y = v[2] + v[4];
 
-        tempBunnySpeedY = tempBunnySpeedY + gravity;
+        local vy = v[4] + gravity;
+		local vx = v[3]
         
-        if (tempBunnyPosX > maxX) then
-            tempBunnySpeedX = tempBunnySpeedX * -0.9;
-            tempBunnyPosX = maxX;
-        elseif (tempBunnyPosX < minX) then
-            tempBunnySpeedX = tempBunnySpeedX * -0.9;
-            tempBunnyPosX = minX;
+        if (x > maxX) then
+            vx = vx * -0.9;
+            x = maxX;
+        elseif (x < 0) then
+            vx = vx * -0.9;
+            x = 0;
         end
         
-        if (tempBunnyPosY > maxY) then
-            tempBunnySpeedY = tempBunnySpeedY * -0.9;
-            tempBunnyPosY = maxY;
-        elseif (tempBunnyPosY < minY) then
-            tempBunnySpeedY = tempBunnySpeedY * -0.9;
-            tempBunnyPosY = minY;
+        if (y > maxY) then
+            vy = vy * -0.9;
+            y = maxY;
+        elseif (y < 0) then
+            vy = vy * -0.9;
+            y = 0;
         end
-        
-        -- push all values back in the tables
-        local bunny = {tempBunnyId, tempBunnyPosX, tempBunnyPosY, tempBunnySpeedX, tempBunnySpeedY }
-        bunnies[index] = bunny
+        bunnies[i] = {x, y, vx, vy}
     end
 end
-function love.quit()
-    stdOutPrint("Quitting app!")
-end
-------------------------------------------------
--- Custom functions
-------------------------------------------------
-
-function procreate(x,y) -- this function creates a new bunny
-    bunnyCount = bunnyCount + 1
-    local bunnyId = bunnyCount
-    local bunnyPosX = x
-    local bunnyPosY = y
-    local bunnySpeedX = (math.random() * 10) - 5  
-    local bunnySpeedY = (math.random() * 10) - 5  
-    local bunny = {bunnyId, bunnyPosX, bunnyPosY, bunnySpeedX, bunnySpeedY }
-    
-    
-    table.insert(bunnies, bunny)
-
-end
-
 ------------------------------------------------
 -- Utils. Toolbelt stuff needed to run this app
 ------------------------------------------------
