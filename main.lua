@@ -1,3 +1,10 @@
+-- Copyright (c) 2018 KANO Computing Ltd. 
+-- Licensed under the GNU GPL v2
+-- 
+-- Original by Iain Lobb
+-- Inspired by PixieJS
+-- Bunny Image by Amanda Lobb 
+
 ------------------------------------------------
 -- Modules
 ------------------------------------------------
@@ -11,9 +18,11 @@ function love.load()
     
     maxX = love.graphics.getWidth( )
     minX = 0
+
     maxY = love.graphics.getHeight( )
     minY = 0
-
+    
+    -- optimise the bunny size for embedded devices
     baseLitterSize = 1000
     litterSizeIncrement = 1000
     litterSize = baseLitterSize
@@ -25,14 +34,22 @@ function love.load()
     bunnyImg = love.graphics.newImage("bunny.png")
 end
 
+
 function love.draw()
+    local x = os.clock() 
+    -- enable memory profiling
+    collectgarbage("collect")
 
     love.graphics.print(bunnyCount .. " Total Bunnies", 20, 10)
-    
+    love.graphics.print(debug.traceback(), 400, 10)    
     love.graphics.print(litterSize .. " bunnies in each Litter", 20, 20)
-    
-    love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 20, 30)    
-    
+
+    -- print the current memory usage
+    -- rounding down mem to three dig: math.floor(mem+0.5) / math.pow(10,dig)
+    love.graphics.print(math.floor(collectgarbage("count") + 0.5)/math.pow(10,3) .. " MB Mem Usage", 20, 30)
+    love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 20, 40)
+    love.graphics.print(string.format("Elapsed clock cycles: %.4f", (os.clock() - x) *1000), 20, 50)
+
     for index,value in ipairs(bunnies) do
         local tempBunnyId = value[1]
         local tempBunnyPosX = value[2]
@@ -40,8 +57,8 @@ function love.draw()
 
         love.graphics.draw(bunnyImg, tempBunnyPosX, tempBunnyPosY)
     end
-
 end
+
 
 function love.mousepressed(x, y, button)
     if button == 1 then
