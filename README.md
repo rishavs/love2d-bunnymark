@@ -29,5 +29,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ## Credits
 
 orginal BunnyMark by to Iain Lobb @ http://blog.iainlobb.com/2010/11/display-list-vs-blitting-results.html
-PixiJS Bunnymark by pixiJS @ http://www.goodboydigital.com/pixi-js-bunnymark/
+PixiJS Bunnymark by pixiJS @ https://www.goodboydigital.com/pixijs/bunnymark/
 Bunny Image by Amanda Lobb @ http://amandalobb.com/
